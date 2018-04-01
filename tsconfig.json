@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strict": true,
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "node_modules/aurelia-webpack-plugin/dist/types/index.d.ts"
+    ]
+}
