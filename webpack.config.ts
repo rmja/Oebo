@@ -2,11 +2,12 @@ import * as CopyPlugin from "copy-webpack-plugin";
 import * as HtmlPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 
+import { Configuration, DefinePlugin } from "webpack";
+
 import { AureliaPlugin } from "aurelia-webpack-plugin";
-import { Configuration } from "webpack";
 import { resolve } from "path";
 
-const config: Configuration = {
+const config = (env: any, argv: any): Configuration => ({
     entry: ["aurelia-bootstrapper"],
     module: {
         rules: [
@@ -26,11 +27,12 @@ const config: Configuration = {
         new AureliaPlugin(),
         new HtmlPlugin({ template: 'index.html' }),
         new CopyPlugin([{ from: "**/*", to: "", context: "assets" }]),
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin(),
+        new DefinePlugin({__DEBUG__: JSON.stringify(argv.mode === "development")})
     ],
     devServer: {
         contentBase: "dist"
     }
-}
+});
 
 export default config;

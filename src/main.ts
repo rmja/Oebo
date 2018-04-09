@@ -13,7 +13,9 @@ PLATFORM.moduleName("locales/da/crossings.json");
 export async function configure(aurelia: Aurelia) {
     aurelia.use.standardConfiguration();
 
-    aurelia.use.developmentLogging();
+    if (__DEBUG__) {
+        aurelia.use.developmentLogging();
+    }
 
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-dialog"));
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-i18n"), (i18n: I18N) => {
@@ -37,9 +39,13 @@ export async function configure(aurelia: Aurelia) {
     await aurelia.start();
 
     const httpClient = aurelia.container.get(HttpClient) as HttpClient;
-    // httpClient.baseUrl = "https://laesoe-line-api.teambooking.dk";
-    httpClient.baseUrl = "http://localhost:51059";
     Http.defaults.fetch = httpClient.fetch.bind(httpClient);
+
+    if (__DEBUG__) {
+        httpClient.baseUrl = "http://localhost:51059";
+    } else {
+        httpClient.baseUrl = "https://laesoe-line-api.teambooking.dk";
+    }
 
     await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
