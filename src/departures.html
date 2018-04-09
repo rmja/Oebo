@@ -1,0 +1,19 @@
+<template>
+    <div repeat.for="[day, departures] of departuresByDay" class="card">
+        <div class="card-body">
+            <h5 class="card-title">${getDateByValue(day) | localFormat:dateFormat}</h5>
+
+            <table class="table table-sm">
+                <tr repeat.for="info of departures" class.bind="!info.isAvailable ? 'table-danger' : ''">
+                    <td>${info.departure | localTime}
+                    </td>
+                    <td class="text-right">
+                        <span if.bind="!info.isAvailable">Udsolgt</span>
+                        <button class="btn btn-primary" type="button" if.bind="!info.booking && info.isAvailable" click.delegate="book(info)" disabled.bind="info.isBusy">Book</button>
+                        <button class="btn btn-danger" type="button" if.bind="info.booking" click.delegate="cancel(info)" disabled.bind="info.isBusy">Annullér</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</template>

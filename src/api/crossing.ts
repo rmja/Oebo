@@ -1,0 +1,1 @@
+export type CrossingType = "FrederikshavnLaesoe" | "LaesoeFrederikshavn";

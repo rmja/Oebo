@@ -1,0 +1,1 @@
+export type VehicleType = "car" | "carTallTrailer12";

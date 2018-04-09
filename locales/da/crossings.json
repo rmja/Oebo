@@ -1,0 +1,10 @@
+{
+    "LaesoeFrederikshavn": {
+        "from": "Læsø",
+        "to": "Frederikshavn"
+    },
+    "FrederikshavnLaesoe": {
+        "from": "Frederikshavn",
+        "to": "Læsø"
+    }
+}
