@@ -1,0 +1,27 @@
+<template>
+    <div repeat.for="[day, departures] of departuresByDay" class="card">
+        <div class="card-body">
+            <h5 class="card-title">${getDateByValue(day) | localFormat:dateFormat}</h5>
+
+            <table class="table table-sm">
+                <tr repeat.for="departure of departures" class.bind="departure.state === 'soldOut' ? 'table-danger' : ''">
+                    <td>${departure.departs | localTime}</td>
+                    <td class="text-right">
+                        <span if.bind="departure.state === 'soldOut'">Udsolgt</span>
+                        <button class="btn btn-primary" type="button" if.bind="departure.state === 'available' && !departure.bookingId"
+                            click.delegate="book(departure)">Book</button>
+                        
+                        <table class="table">
+                            <tr repeat.for="booking of departure.bookings">
+                                <td>${booking.bookingNumber}</td>
+                                <td>${booking.state}</td>
+                                <td><button class="btn btn-danger" type="button" if.bind="booking.state === 'confirmed'" click.delegate="cancel(booking)">Annullér</button></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <button class="btn btn-primary" click.delegate="getNextDepartures()">Hent flere afgange</button>
+</template>

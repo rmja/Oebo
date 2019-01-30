@@ -1,0 +1,28 @@
+<template>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Reservationer</h5>
+
+            <div repeat.for="booking of bookings">
+                <strong>${booking.bookingNumber}</strong>
+                <span>${booking.state}</span>
+                <span if.bind="booking.state === 'cancelled'">Annulleret</span>
+                <table class="table">
+                    <tr repeat.for="journey of booking.journeys">
+                        <td>${journey.crossing}</td>
+                        <td><span t="crossings:${journey.crossing}"></span></td>
+                        <td>${journey.departure | localFormat:dateTimeFormat}</td>
+                    </tr>
+                </table>
+
+                <button if.bind="booking.state === 'confirmed'" type="button" class="btn btn-danger" click.delegate="cancel(booking)">Annullér</button>
+                <button if.bind="booking.state === 'cancelled'" type="button" class="btn btn-danger" click.delegate="delete(booking)">Slet</button>
+            </div>
+        </div>
+    </div>
+
+    <select class="form-control" value.bind="vehicle">
+        <option value="car">Bil</option>
+        <option value="carTallTrailer12">Bil + Høj trailer u/12m</option>
+    </select>
+</template>

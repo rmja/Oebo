@@ -1,2 +1,6 @@
-dist
-node_modules
+.vs
+**/.local-chromium
+src/*/bin
+src/*/obj
+src/*/node_modules
+src/*/wwwroot

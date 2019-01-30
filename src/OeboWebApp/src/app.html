@@ -1,0 +1,18 @@
+<template>
+    ${profile}
+
+    <div repeat.for="notification of notifications">
+        ${notification.title}
+
+        ${notification.description}
+    </div>
+
+    <div class="container">
+        <a route-href="route: dashboard">Oversigt</a>
+        <a route-href="route: departures; params.bind: { crossing: 'laesoe~frederikshavn' }">Læsø til Frederikshavn</a>
+        <a route-href="route: departures; params.bind: { crossing: 'frederikshavn~laesoe' }">Frederikshavn til Læsø</a>
+        <button click.delegate="login()">Log ind</button>
+        <button click.delegate="logout()">Log ud</button>
+        <router-view></router-view>
+    </div>
+</template>
