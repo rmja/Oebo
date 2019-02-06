@@ -1,7 +1,8 @@
 import "bootstrap/dist/css/bootstrap.css";
 
 import { Aurelia, PLATFORM, autoinject } from 'aurelia-framework';
-import { Backend, I18N } from "aurelia-i18n";
+import { I18N } from "aurelia-i18n";
+import * as Backend from "i18next-xhr-backend";
 
 import { Http } from 'ur-http';
 import { HttpClient, Interceptor } from 'aurelia-fetch-client';
@@ -18,18 +19,18 @@ export async function configure(aurelia: Aurelia) {
     }
 
     aurelia.use
-        .plugin(PLATFORM.moduleName("aurelia-i18n"), (i18n: I18N) => {
-            // i18n.i18next.use(Backend.with(aurelia.loader));
+        .plugin(PLATFORM.moduleName("aurelia-fontawesome"))
+        .plugin(PLATFORM.moduleName("aurelia-i18n"), (instance: I18N) => {
+            instance.i18next.use(Backend);
 
-            const options: any = {
+            return instance.setup({
                 backend: {
                     loadPath: 'locales/{{lng}}/{{ns}}.json'
                 },
                 lng: 'da',
-                ns: ['crossings']
-            };
-
-            return i18n.setup(options);
+                fallbackLng: false,
+                ns: ['crossings', 'vehicles', 'ages']
+            });
         })
         .plugin(PLATFORM.moduleName("aurelia-open-id-connect"), () => oidcConfig);
 

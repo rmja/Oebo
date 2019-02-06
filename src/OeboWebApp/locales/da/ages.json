@@ -1,0 +1,18 @@
+{
+    "adult": {
+        "name": "Voksen",
+        "icon": "restroom"
+    },
+    "child": {
+        "name": "Barn",
+        "icon": "child"
+    },
+    "senior": {
+        "name": "Pensionist",
+        "icon": "blind"
+    },
+    "infant": {
+        "name": "Spædbarn",
+        "icon": "baby"
+    }
+}

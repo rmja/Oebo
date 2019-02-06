@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OeboWebApp;
 
 namespace OeboWebApp.Migrations
 {
     [DbContext(typeof(OeboContext))]
-    partial class OeboContextModelSnapshot : ModelSnapshot
+    [Migration("20190205130331_AddProfileTable")]
+    partial class AddProfileTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

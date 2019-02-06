@@ -63,7 +63,7 @@ export default function config(env?: { release?: boolean }): Configuration {
             new DefinePlugin({
                 "__DEBUG__": JSON.stringify(JSON.stringify(!isRelease))
             }),
-            new CopyWebpackPlugin([{ from: "locales", to: resolve("wwwroot/locales") }])
+            new CopyWebpackPlugin([{ from: resolve("locales"), to: resolve("wwwroot/locales") }])
         ]
     };
 }

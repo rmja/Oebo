@@ -9,7 +9,7 @@ const postLogoutRedirectUri = `${appHost}/signout-oidc`;
 const config: OpenIdConnectConfiguration = {
     loginRedirectRoute: "/",
     logoutRedirectRoute: "/",
-    unauthorizedRedirectRoute: "/",
+    unauthorizedRedirectRoute: "/login",
     logLevel: Log.DEBUG,
     userManagerSettings: {
         authority: `https://oebo.eu.auth0.com`,

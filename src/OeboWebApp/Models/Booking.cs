@@ -59,7 +59,7 @@ namespace OeboWebApp.Models
                 case BookingState.Cancelled:
                     Cancelled = DateTimeOffset.UtcNow;
                     break;
-                case BookingState.Failed:
+                case BookingState.FailedInvalidLogin:
                     Failed = DateTimeOffset.UtcNow;
                     break;
             }
@@ -73,6 +73,7 @@ namespace OeboWebApp.Models
         Confirmed,
         PendingCancellation,
         Cancelled,
-        Failed
+
+        FailedInvalidLogin
     }
 }

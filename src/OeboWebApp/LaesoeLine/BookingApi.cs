@@ -8,11 +8,11 @@ namespace OeboWebApp.LaesoeLine
 {
     public class BookingApi
     {
-        public Task<BookResult> BookAsync(Booking booking)
+        public Task<BookResult> BookAsync(Booking booking, string username, string password)
         {
             if (booking.Journeys.Count == 1)
             {
-                return BookOneWayAsync(booking.Journeys[0]);
+                return BookOneWayAsync(booking.Journeys[0], username, password);
             }
             else
             {
@@ -20,19 +20,24 @@ namespace OeboWebApp.LaesoeLine
             }
         }
 
-        public async Task<BookResult> BookOneWayAsync(Journey journey)
+        public async Task<BookResult> BookOneWayAsync(Journey journey, string username, string password)
         {
-            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions()))
+            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions() { Devtools = true }))
             {
                 using (var page = await browser.NewPageAsync())
                 {
                     await page.GoToAsync("https://booking.laesoe-line.dk/dk/customer-profile/");
 
-                    await page.SetValueAsync(Selectors.CustomerUsername, "USERNAME");
-                    await page.SetValueAsync(Selectors.CustomerPassword, "PASSWORD");
+                    await page.SetValueAsync(Selectors.CustomerUsername, username);
+                    await page.SetValueAsync(Selectors.CustomerPassword, password);
 
                     await page.ClickAsync(Selectors.LoginButton);
                     await page.WaitForSelectorToDisappearAsync(Selectors.LoadingSpinner);
+
+                    if (await page.IsVisibleAsync(Selectors.LoginErrorMessage))
+                    {
+                        return BookResult.Error(BookStatus.InvalidLogin);
+                    }
 
                     if (journey.Vehicle == Vehicle.None)
                     {

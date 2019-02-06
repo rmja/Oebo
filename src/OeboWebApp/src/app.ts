@@ -2,13 +2,15 @@ import { RouteConfig, RouterConfiguration } from "aurelia-router";
 
 import { PLATFORM, autoinject, Disposable } from "aurelia-framework";
 import { EventHub } from "./api/event-hub";
-import { OpenIdConnect } from "aurelia-open-id-connect";
+import { OpenIdConnect, OpenIdConnectRoles } from "aurelia-open-id-connect";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { BookingStateChangedEvent } from "./api/events/booking-state-changed";
 
 const routes: RouteConfig[] = [
     { route: "", name: "dashboard", moduleId: PLATFORM.moduleName("./dashboard") },
-    { route: "crossings/:crossing/departures", name: "departures", moduleId: PLATFORM.moduleName("./departures"), activationStrategy: "replace" }
+    { route: "login", name: "login", moduleId: PLATFORM.moduleName("./login") },
+    { route: "crossings/:crossing/departures", name: "departures", moduleId: PLATFORM.moduleName("./departures"), activationStrategy: "replace" },
+    { route: "crossings/:crossing/departures/:departure/book", name: "book", moduleId: PLATFORM.moduleName("./book"), activationStrategy: "replace", settings: { roles: [OpenIdConnectRoles.Authenticated] } }
 ];
 
 @autoinject()
@@ -47,6 +49,12 @@ export class App {
                         this.notifications.push({
                             title: "Annulering bekræftet",
                             descriptions: "Annuleringen er bekræftet"
+                        });
+                        break;
+                    case "failedInvalidLogin":
+                        this.notifications.push({
+                            title: "Forkert login",
+                            descriptions: "Booking kunne ikke oprettes pga. forkert brugernavn eller password"
                         });
                         break;
                 }

@@ -36,7 +36,6 @@ namespace OeboWebApp.Controllers
             return bookings;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Booking>> Get(int id)
         {
@@ -54,14 +53,14 @@ namespace OeboWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<Booking> Post(List<Journey> journeys)
+        public async Task<Booking> Post(List<Journey> journeys, string username, string password)
         {
             var booking = Booking.Create(User.GetId(), journeys);
 
             _db.Bookings.Add(booking);
             await _db.SaveChangesAsync();
 
-            _bookingQueue.EnqueueBook(booking.Id);
+            _bookingQueue.EnqueueBook(booking.Id, username, password);
 
             return booking;
         }
@@ -79,7 +78,7 @@ namespace OeboWebApp.Controllers
                     return NotFound();
                 case BookingState.Created:
                 case BookingState.Cancelled:
-                case BookingState.Failed:
+                case BookingState.FailedInvalidLogin:
                     _db.Bookings.Remove(booking);
                     await _db.SaveChangesAsync();
                     return NoContent();

@@ -104,6 +104,7 @@ namespace OeboWebApp
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSignalR(builder => builder.MapHub<EventHub>("/events"));
             app.UseMvc();

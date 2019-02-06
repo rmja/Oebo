@@ -7,11 +7,11 @@ import { BookingApi } from "./api/booking-api";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { BookingStateChangedEvent } from "./api/events/booking-state-changed";
 import { BookingState, Booking } from "./api/booking";
-import { HttpError } from "@aspnet/signalr";
+import { HttpError } from "ur-http";
 
 @autoinject()
 export class Departures {
-    private crossing!: CrossingType;
+    crossing!: CrossingType;
     departuresByDay = new Map<number, DepartureViewModel[]>();
 
     dateFormat = DateTime.DATE_HUGE;
@@ -74,17 +74,6 @@ export class Departures {
         for (const disposable of this.disposables) {
             disposable.dispose();
         }
-    }
-
-    async book(departure: DepartureViewModel) {
-        const booking = await this.bookingApi.create([{
-            crossing: this.crossing,
-            departure: departure.departs,
-            vehicle: "carSeasonPass",
-            passengers: 1
-        }]).transfer();
-
-        departure.bookings.push(booking);
     }
 
     async cancel(booking: BookingViewModel) {

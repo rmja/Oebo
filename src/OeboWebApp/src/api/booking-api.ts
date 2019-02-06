@@ -9,8 +9,8 @@ export class BookingApi {
     constructor(private oidc: OpenIdConnect) {
     }
 
-    create(command: Partial<Journey>[]) {
-        return Http.post("/Bookings")
+    create(command: Partial<Journey>[], username: string, password: string) {
+        return Http.post("/Bookings", { username, password })
             .withJson(command)
             .expectJson<Booking>();
     }

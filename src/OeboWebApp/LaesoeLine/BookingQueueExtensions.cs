@@ -7,7 +7,7 @@ namespace OeboWebApp.LaesoeLine
 {
     public static class BookingQueueExtensions
     {
-        public static void EnqueueBook(this BookingQueue queue, int bookingId)
+        public static void EnqueueBook(this BookingQueue queue, int bookingId, string username, string password)
         {
             queue.Enqueue(async cancellationToken =>
             {
@@ -26,11 +26,20 @@ namespace OeboWebApp.LaesoeLine
                     await db.SaveChangesAsync();
                     await hub.PublishBookingStateChangedAsync(booking.UserId, booking.Id, booking.State);
 
-                    var bookResult = await api.BookAsync(booking);
-                    booking.BookingNumber = bookResult.BookingNumber;
-                    booking.BookingPassword = bookResult.BookingPassword;
+                    var bookResult = await api.BookAsync(booking, username, password);
 
-                    booking.SetState(BookingState.Confirmed);
+                    switch (bookResult.Status)
+                    {
+                        case BookStatus.Success:
+                            booking.BookingNumber = bookResult.BookingNumber;
+                            booking.BookingPassword = bookResult.BookingPassword;
+                            booking.SetState(BookingState.Confirmed);
+                            break;
+                        case BookStatus.InvalidLogin:
+                            booking.SetState(BookingState.FailedInvalidLogin);
+                            break;
+                    }
+
                     await db.SaveChangesAsync();
                     await hub.PublishBookingStateChangedAsync(booking.UserId, booking.Id, booking.State);
                 }

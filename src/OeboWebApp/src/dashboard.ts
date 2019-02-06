@@ -57,6 +57,10 @@ export class Dashboard {
         const index = this.bookings.indexOf(booking);
         this.bookings.splice(index, 1);
     }
+
+    canDelete(state: BookingState) {
+        return state === "cancelled" || state === "failedInvalidLogin";
+    }
 }
 
 interface BookingViewModel {

@@ -10,6 +10,7 @@ namespace OeboWebApp.LaesoeLine
         public const string BookingUsername = "#cw-login-booking-code";
         public const string BookingPassword = "#cw-login-booking-password";
         public const string LoginButton = "button[type='submit']";
+        public const string LoginErrorMessage = ".error.ui-state-error.cw-form-error";
 
         public const string CopyDetails = "input[name='journeysearch-passengers-copy']";
         public const string Outbound_Route = "#j1_route-j1_route";

@@ -8,9 +8,7 @@
                     <td>${departure.departs | localTime}</td>
                     <td class="text-right">
                         <span if.bind="departure.state === 'soldOut'">Udsolgt</span>
-                        <button class="btn btn-primary" type="button" if.bind="departure.state === 'available' && !departure.bookingId"
-                            click.delegate="book(departure)">Book</button>
-                        
+                        <a if.bind="departure.state === 'available'" route-href="route: book; params.bind: { crossing: crossing, departure: departure.departs }" class="btn btn-primary">Book</a>
                         <table class="table">
                             <tr repeat.for="booking of departure.bookings">
                                 <td>${booking.bookingNumber}</td>

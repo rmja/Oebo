@@ -16,7 +16,7 @@
                 </table>
 
                 <button if.bind="booking.state === 'confirmed'" type="button" class="btn btn-danger" click.delegate="cancel(booking)">Annullér</button>
-                <button if.bind="booking.state === 'cancelled'" type="button" class="btn btn-danger" click.delegate="delete(booking)">Slet</button>
+                <button if.bind="canDelete(booking.state)" type="button" class="btn btn-danger" click.delegate="delete(booking)">Slet</button>
             </div>
         </div>
     </div>

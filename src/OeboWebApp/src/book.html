@@ -1,0 +1,136 @@
+<template>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href class="nav-link ${tab === 'driving' ? 'active' : ''}" click.delegate="setTab('driving')">
+                    <font-awesome-icon icon="car-side" fixed-width="true" size="2x"></font-awesome-icon> Kørende
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href class="nav-link ${tab === 'walking' ? 'active' : ''}" click.delegate="setTab('walking')">
+                    <font-awesome-icon icon="walking" fixed-width="true" size="2x"></font-awesome-icon> Gående
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane ${tab === 'driving' ? 'active' : ''}">
+                <button class="btn btn-secondary" click.delegate="toggleAddProfile()">Tilføj køretøj</button>
+                <div class="card" if.bind="newProfile">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            Tilføj køretøj
+                        </h4>
+                        <form submit.delegate="submitProfile()">
+                            <div class="form-group">
+                                <label>Navn</label>
+                                <input type="text" class="form-control" value.bind="newProfile.name">
+                            </div>
+                            <div class="form-group">
+                                <label>Læsøfærgen kundenummer</label>
+                                <input type="text" class="form-control" value.bind="newProfile.username">
+                            </div>
+                            <div class="form-group">
+                                <label>Læsøfærgen adgangskode</label>
+                                <input type="text" class="form-control" value.bind="newProfile.password">
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" checked.bind="seasonPass">
+                                    Køretøjet har årskort
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <font-awesome-icon icon="save"></font-awesome-icon>
+                                Gem køretøj
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <th>Navn</th>
+                        <th>
+                            <font-awesome-icon icon="car" fixed-width="true"></font-awesome-icon>
+                            Køretøj
+                        </th>
+                        <th>
+                            <font-awesome-icon icon="user" fixed-width="true"></font-awesome-icon>
+                            Passagerer
+                        </th>
+                        <th></th>
+                    </thead>
+                    <tr repeat.for="profile of profiles | filterProfiles: 'driving'">
+                        <td><strong>${profile.name}</strong></td>
+                        <td t="vehicles:${profile.vehicle}">
+                        </td>
+                        <td>
+                            <button class="btn" click.delegate="decrementPassengers(profile)" disabled.bind="profile.passengers === 1">
+                                <font-awesome-icon icon="minus" fixed-width="true"></font-awesome-icon>
+                            </button>
+                            ${profile.passengers}
+                            <button class="btn" click.delegate="incrementPassengers(profile)">
+                                <font-awesome-icon icon="plus" fixed-width="true"></font-awesome-icon>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" click.delegate="deleteProfile(profile)">Slet</button>
+                            <button class="btn btn-primary" click.delegate="book(profile)">Book</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-pane ${tab === 'walking' ? 'active' : ''}">
+                <button class="btn btn-secondary" click.delegate="toggleAddProfile()">Tilføj gående</button>
+                <div class="card" if.bind="newProfile">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            Tilføj gående
+                        </h4>
+                        <form submit.delegate="submitProfile()">
+                            <div class="btn-group">
+                                <button repeat.for="item of ['adult', 'child', 'senior', 'infant']" class="btn ${item === age ? 'btn-info' : 'btn-secondary'}" t="[title]ages:${item}.name" click.delegate="setAge(item)">
+                                    <font-awesome-icon t="[icon]ages:${item}.icon" fixed-width="true">
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label>Navn</label>
+                                <input type="text" class="form-control" value.bind="newProfile.name">
+                            </div>
+                            <div class="form-group">
+                                <label>Læsøfærgen kundenummer</label>
+                                <input type="text" class="form-control" value.bind="newProfile.username">
+                            </div>
+                            <div class="form-group">
+                                <label>Læsøfærgen adgangskode</label>
+                                <input type="text" class="form-control" value.bind="newProfile.password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <font-awesome-icon icon="save"></font-awesome-icon>
+                                <span t="[append]ages:${age}.name">Gem </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <th>Navn</th>
+                        <th></th>
+                    </thead>
+                    <tr repeat.for="profile of profiles | filterProfiles: 'walking'">
+                        <td>
+                            <font-awesome-icon t="[icon]ages:${profile.age}.icon" fixed-width="true"></font-awesome-icon>
+                            <strong>${profile.name}</strong>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" click.delegate="deleteProfile(profile)">Slet</button>
+                            <button class="btn btn-primary" click.delegate="book(profile)">Book</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

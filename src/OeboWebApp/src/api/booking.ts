@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import { jsonProperty } from "ur-json";
 import { luxonConverter } from "./converters/luxon-converter";
 
-export type BookingState = "created" | "pendingConfirmation" | "confirmed" | "pendingCancellation" | "cancelled" | "failed";
+export type BookingState = "created" | "pendingConfirmation" | "confirmed" | "pendingCancellation" | "cancelled" | "failedInvalidLogin";
 
 export class Booking {
     @jsonProperty()
